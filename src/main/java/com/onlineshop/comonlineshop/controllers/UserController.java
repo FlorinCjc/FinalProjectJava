@@ -2,15 +2,14 @@ package com.onlineshop.comonlineshop.controllers;
 
 import com.onlineshop.comonlineshop.model.User;
 import com.onlineshop.comonlineshop.model.UserRole;
+import com.onlineshop.comonlineshop.model.dto.UserDto;
 import com.onlineshop.comonlineshop.services.UserService;
 import com.onlineshop.comonlineshop.utils.ApiResponse;
 import com.onlineshop.comonlineshop.utils.UtilsResponse;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
@@ -27,14 +26,14 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<ApiResponse> getAllUsers() {
-        ApiResponse response = UtilsResponse.succes("Lista utilizatori", userService.getAllUsers());
-        return ResponseEntity.ok(response);
+       return UtilsResponse.success("Lista utilizatori", userService.getAllUsers());
+
     }
 
-    @PostMapping
-    public ResponseEntity<ApiResponse> createUser(@RequestBody User body) { // fara requestBody userul nostru va fi null
-        return ResponseEntity.ok(UtilsResponse.succes("Utilizator creat cu succes",
-                userService.createUser(body)));
+    @PostMapping // @Valid activeaza cele 3 adnotari din UserDTO
+    public ResponseEntity<ApiResponse> createUser(@Valid @RequestBody UserDto body) { // fara requestBody userul nostru va fi null
+        return UtilsResponse.success("Utilizator creat cu succes",
+                userService.createUser(body));
 
 
         //      body.forEach((key,value) ->{
@@ -53,21 +52,22 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<ApiResponse> updateUser(@RequestBody User body) {
-        return ResponseEntity.ok(UtilsResponse.succes("Utilizator modificat cu succes",
-                userService.updateUser(body)));
+    public ResponseEntity<ApiResponse> updateUser(@Valid @RequestBody UserDto body) {
+        return UtilsResponse.success("Utilizator modificat cu succes",
+                userService.updateUser(body));
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<ApiResponse> deteleUser(@PathVariable int id) { // acest pathvariable spune faptu ca in url nostru pe ultimul / vom avea id ul , ia-l pe acela si mapeaza-l
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse> deleteUser(@PathVariable int id) { // acest pathvariable spune faptu ca in url nostru pe ultimul / vom avea id ul , ia-l pe acela si mapeaza-l
         userService.deleteUserById(id);
-        return ResponseEntity.ok(UtilsResponse.succes("Utilizator sters cu succes"));
+        return UtilsResponse.success("Utilizator sters cu succes");
 
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ApiResponse> getUserById(@PathVariable("id") int id) {
-        return ResponseEntity.ok(UtilsResponse.succes("Utilizatorul cu Id-ul " + id
-                , userService.getUserById(id)));
+        return UtilsResponse.success("Utilizatorul cu Id-ul " + id
+                , userService.getUserById(id));
     }
+
 }

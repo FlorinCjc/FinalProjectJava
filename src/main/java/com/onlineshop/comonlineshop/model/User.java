@@ -29,7 +29,7 @@ public class User {
     private String phone;
     @Enumerated(EnumType.STRING)
     private UserRole role;
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer") // userul nostru va avea cheie straina in tabela commands care va face referire la proprietatea obiectului de tipul User din clasa Command
     @JsonIgnoreProperties("customer")
     private List<Command> commandList;
 

@@ -25,17 +25,17 @@ public class Command {
     @Column(columnDefinition = "text", nullable = false)
     private String details;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @JsonIgnoreProperties("commandsList")
+    @ManyToOne//mai multe comenzi poate avea un User => Command primeste @ManyToOne de User = customer
+    @JoinColumn(name = "user_id", referencedColumnName = "id") // face referinta la coloana id din tablea user
+    @JsonIgnoreProperties("commandsList")//nu mai trebuie sa ne dea atunci cand citim comenzi din baza de date si proprietatea cu commandsList
     private User customer;
 
     @ManyToMany
     @JoinTable(name = "commands_items", joinColumns = @JoinColumn(name = "command_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "item_id", referencedColumnName = "id"))
     @JsonIgnoreProperties("commandList")
-
     private List<Item> itemsList = new ArrayList<>();
+
     @Enumerated(value = EnumType.STRING)
     private PaymentStatus paymentStatus;
 

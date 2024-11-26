@@ -1,16 +1,18 @@
 package com.onlineshop.comonlineshop.services;
 
 import com.onlineshop.comonlineshop.model.User;
+import com.onlineshop.comonlineshop.model.dto.UserDto;
 
 import java.util.List;
 
 public interface UserService {
-    List<User> getAllUsers();
-    User getUserById(int id);
+    List<UserDto> getAllUsers();
 
-    User createUser(User user);
+    UserDto getUserById(int id);
 
-    User updateUser(User user);
+    UserDto createUser(UserDto body);
+
+    UserDto updateUser(UserDto body);
 
     void deleteUserById(int id);
 }
